@@ -1,26 +1,198 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-soft-ivory: #EFE9E0;
+  --color-light-yellow: #0F9E99; /* Tropical Teal */
+  --color-peach-cream: #1F1C2C;  /* Cor de fundo do lado direito */
+  --color-dutch-white: #EFFBBB;
+  --color-steel-gray: #333333;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@font-face {
+  font-family: 'Clash Grotesk';
+  src: '../../public/fonts/ClashGrotesk_Complete/Fonts/WEB/fonts/ClashGrotesk-Regular.woff2' format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@font-face {
+  font-family: 'Boska';
+  src: '../../public/fonts/Boska_Complete/Fonts/WEB/fonts/Boska-BlackItalic.woff2'format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Formula Condensed';
+  src: '../../public/fonts/Formula Condensed - Free for personal use/FormulaCondensed-Bold.otf';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: white;
+}
+
+/* Utilitários para fontes */
+.font-clash {
+  font-family: 'Clash Grotesk', sans-serif;
+}
+
+.font-boska {
+  font-family: 'Boska', serif;
+}
+
+.font-formula {
+  font-family: 'Formula Condensed', sans-serif;
+}
+
+/* Animação de light sweep para o botão */
+.light-sweep-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.light-sweep-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.5),
+    transparent
+  );
+  transition: 0.8s;
+}
+
+.light-sweep-button:hover::before {
+  animation: light-sweep 3s ease-in-out infinite;
+}
+
+.light-sweep-button:hover {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes light-sweep {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Classes com variáveis CSS */
+.bg-soft-ivory {
+  background-color: var(--color-soft-ivory);
+}
+
+.text-soft-ivory {
+  color: var(--color-soft-ivory);
+}
+
+.bg-light-yellow {
+  background-color: var(--color-light-yellow);
+}
+
+.text-light-yellow {
+  color: var(--color-light-yellow);
+}
+
+.bg-peach-cream {
+  background-color: var(--color-peach-cream);
+}
+
+.text-peach-cream {
+  color: var(--color-peach-cream);
+}
+
+.bg-dutch-white {
+  background-color: var(--color-dutch-white);
+}
+
+.text-dutch-white {
+  color: var(--color-dutch-white);
+}
+
+.bg-steel-gray {
+  background-color: var(--color-steel-gray);
+}
+
+.text-steel-gray {
+  color: var(--color-steel-gray);
+}
+
+/* Gradient Background */
+.gradient-background {
+  background: linear-gradient(135deg, #E8CBC0 0%, #a4a7c2 50%, #636FA4 100%);
+  background-attachment: fixed;
+}
+
+/* Estilos para o novo formato do ProgressBar */
+.progress-step {
+  position: relative;
+  width: 60px;
+  height: 60px;
+}
+
+/* Animação fluida para o ProgressBar */
+@keyframes fillWater {
+  0% {
+    transform: translateY(100%);
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes flowWater {
+  0% {
+    width: 0%;
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+/* Efeito neon apenas para bordas inferiores */
+.shadow-neon {
+  box-shadow: 0 4px 8px -1px rgba(15, 158, 153, 0.6), 0 2px 4px -1px rgba(15, 158, 153, 0.4);
+}
+
+/* Label styling */
+.label-container {
+  background-color: var(--color-soft-ivory);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+/* Card Component */
+.form-card {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 1.5rem;
 }
