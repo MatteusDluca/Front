@@ -99,12 +99,13 @@ export const contractApi = {
   },
 
   /**
-   * Gera PDF de todos os contratos
-   * @returns URL do PDF gerado
-   */
-  async generateAllContractsPdf(): Promise<string> {
+ * Gera PDF de todos os contratos
+ * @returns URL do PDF gerado
+ */
+async generateAllContractsPdf(): Promise<string> {
     try {
-      const response = await api.get<string>('/contracts/pdf');
+      // Usando a rota específica que adicionamos ao controller
+      const response = await api.get<string>('/contracts/pdf-all');
       return response.data;
     } catch (error) {
       console.error('Erro ao gerar PDF de contratos:', error);
@@ -119,7 +120,7 @@ export const contractApi = {
    */
   async generateContractPdf(id: string): Promise<string> {
     try {
-      const response = await api.get<string>(`/contracts/${id}/pdf`);
+      const response = await api.get<string>(`/contracts/pdf/${id}`);
       return response.data;
     } catch (error) {
       console.error(`Erro ao gerar PDF do contrato ${id}:`, error);
