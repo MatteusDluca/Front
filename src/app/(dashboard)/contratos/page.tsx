@@ -76,11 +76,10 @@ export default function ContractsPage() {
     fetchContracts();
     setFilterOpen(false);
   };
-
   /**
-   * Gera um PDF com todos os contratos
-   */
-  const handleGeneratePdf = async () => {
+ * Gera um PDF com todos os contratos
+ */
+const handleGeneratePdf = async () => {
     try {
       const pdfUrl = await contractApi.generateAllContractsPdf();
       window.open(pdfUrl, '_blank');
@@ -89,7 +88,7 @@ export default function ContractsPage() {
       showNotification('error', 'Não foi possível gerar o PDF dos contratos.');
     }
   };
-
+  
   /**
    * Gera um PDF para um contrato específico
    */
