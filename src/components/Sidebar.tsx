@@ -43,37 +43,37 @@ const Sidebar: React.FC = () => {
   const menuItems: MenuItem[] = [
     {
       name: 'Dashboard',
-      path: '/dashboard',
+      path: '/',
       icon: <LayoutDashboard size={22} strokeWidth={1.5} className="rounded-sm" />
     },
     {
       name: 'Clientes',
-      path: '/dashboad/clientes',
+      path: '/clientes',
       icon: <UserCircle size={22} strokeWidth={1.5} className="rounded-sm" />
     },
     {
       name: 'Funcionários',
-      path: '/dashboad/funcionarios',
+      path: '/funcionarios',
       icon: <Users size={22} strokeWidth={1.5} className="rounded-sm" />
     },
     {
       name: 'Produtos',
-      path: '/dashboad/produtos',
+      path: '/produtos',
       icon: <Package size={22} strokeWidth={1.5} className="rounded-sm" />
     },
     {
       name: 'Contratos',
-      path: '/dashboad/contratos',
+      path: '/contratos',
       icon: <FileText size={22} strokeWidth={1.5} className="rounded-sm" />
     },
     {
       name: 'Eventos e Locais',
-      path: '/dashboad/eventos-locais',
+      path: '/eventos-locais',
       icon: <Calendar size={22} strokeWidth={1.5} className="rounded-sm" />
     },
     {
       name: 'Categorias',
-      path: '/dashboad/categorias',
+      path: '/categorias',
       icon: <Tag size={22} strokeWidth={1.5} className="rounded-sm" />
     }
   ]
