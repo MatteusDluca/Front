@@ -43,7 +43,7 @@ const Sidebar: React.FC = () => {
   const menuItems: MenuItem[] = [
     {
       name: 'Dashboard',
-      path: '/',
+      path: '/dashboard',
       icon: <LayoutDashboard size={22} strokeWidth={1.5} className="rounded-sm" />
     },
     {
