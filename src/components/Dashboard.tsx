@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, TooltipProps } from 'recharts';
 import { Calendar, Package, Users, FileText, AlertTriangle } from 'lucide-react';
+import api from '../lib/api';
 
 // Importação dos tipos necessários
 import {
@@ -97,208 +98,6 @@ const getCurrentDateFormatted = (): string => {
   return `${dayName}, ${day} de ${month} de ${year}`;
 };
 
-// Dados de exemplo para simulação das APIs
-const MOCK_PRODUCTS: Product[] = [
-  {
-    id: '1',
-    name: 'Vestido Longo Azul',
-    code: 'VL001',
-    status: ProductStatus.AVAILABLE,
-    size: 'M',
-    quantity: 5,
-    rentalValue: 150.00,
-    createdAt: '2025-03-10T14:30:00Z',
-    updatedAt: '2025-03-10T14:30:00Z'
-  },
-  {
-    id: '2',
-    name: 'Terno Preto',
-    code: 'TP001',
-    status: ProductStatus.RENTED,
-    size: '42',
-    quantity: 3,
-    rentalValue: 200.00,
-    createdAt: '2025-03-12T10:15:00Z',
-    updatedAt: '2025-03-12T10:15:00Z'
-  },
-  {
-    id: '3',
-    name: 'Vestido de Noiva',
-    code: 'VN001',
-    status: ProductStatus.MAINTENANCE,
-    size: 'P',
-    quantity: 1,
-    rentalValue: 500.00,
-    createdAt: '2025-03-05T09:45:00Z',
-    updatedAt: '2025-03-15T16:20:00Z'
-  },
-  {
-    id: '4',
-    name: 'Smoking',
-    code: 'SM001',
-    status: ProductStatus.AVAILABLE,
-    size: '44',
-    quantity: 2,
-    rentalValue: 250.00,
-    createdAt: '2025-03-08T11:30:00Z',
-    updatedAt: '2025-03-08T11:30:00Z'
-  }
-];
-
-const MOCK_CLIENTS: Client[] = [
-  {
-    id: '1',
-    name: 'Maria Silva',
-    email: 'maria@exemplo.com',
-    phone: '(85) 99988-7766',
-    cpfCnpj: '123.456.789-00',
-    createdAt: '2025-02-15T10:30:00Z',
-    updatedAt: '2025-02-15T10:30:00Z'
-  },
-  {
-    id: '2',
-    name: 'João Pereira',
-    email: 'joao@exemplo.com',
-    phone: '(85) 98877-6655',
-    cpfCnpj: '987.654.321-00',
-    createdAt: '2025-02-20T14:45:00Z',
-    updatedAt: '2025-02-20T14:45:00Z'
-  },
-  {
-    id: '3',
-    name: 'Ana Santos',
-    email: 'ana@exemplo.com',
-    phone: '(85) 97766-5544',
-    cpfCnpj: '456.789.123-00',
-    createdAt: '2025-03-05T09:15:00Z',
-    updatedAt: '2025-03-05T09:15:00Z'
-  }
-];
-
-const MOCK_CONTRACTS: Contract[] = [
-  {
-    id: '1',
-    clientId: '1',
-    client: MOCK_CLIENTS[0],
-    status: ContractStatus.ACTIVE,
-    pickupDate: '2025-03-18T10:00:00Z',
-    returnDate: '2025-03-25T10:00:00Z',
-    needsAdjustment: false,
-    createdAt: '2025-03-15T14:30:00Z',
-    updatedAt: '2025-03-15T14:30:00Z',
-    items: [
-      {
-        id: '1',
-        contractId: '1',
-        productId: '1',
-        product: {
-          id: '1',
-          name: 'Vestido Longo Azul',
-          code: 'VL001',
-          rentalValue: 150.00
-        },
-        quantity: 1,
-        unitValue: 150.00,
-        createdAt: '2025-03-15T14:30:00Z',
-        updatedAt: '2025-03-15T14:30:00Z'
-      }
-    ],
-    payments: [
-      {
-        id: '1',
-        contractId: '1',
-        method: PaymentMethod.PIX,
-        totalValue: 150.00,
-        finalValue: 150.00,
-        createdAt: '2025-03-15T14:30:00Z',
-        updatedAt: '2025-03-15T14:30:00Z'
-      }
-    ]
-  },
-  {
-    id: '2',
-    clientId: '2',
-    client: MOCK_CLIENTS[1],
-    status: ContractStatus.IN_PROGRESS,
-    pickupDate: '2025-03-17T15:00:00Z',
-    returnDate: '2025-03-20T15:00:00Z',
-    needsAdjustment: true,
-    createdAt: '2025-03-16T11:45:00Z',
-    updatedAt: '2025-03-16T11:45:00Z',
-    items: [
-      {
-        id: '2',
-        contractId: '2',
-        productId: '2',
-        product: {
-          id: '2',
-          name: 'Terno Preto',
-          code: 'TP001',
-          rentalValue: 200.00
-        },
-        quantity: 1,
-        unitValue: 200.00,
-        createdAt: '2025-03-16T11:45:00Z',
-        updatedAt: '2025-03-16T11:45:00Z'
-      }
-    ],
-    payments: [
-      {
-        id: '2',
-        contractId: '2',
-        method: PaymentMethod.CREDIT_CARD,
-        totalValue: 200.00,
-        discountType: DiscountType.PERCENTAGE,
-        discountValue: 10,
-        finalValue: 180.00,
-        createdAt: '2025-03-16T11:45:00Z',
-        updatedAt: '2025-03-16T11:45:00Z'
-      }
-    ]
-  },
-  {
-    id: '3',
-    clientId: '3',
-    client: MOCK_CLIENTS[2],
-    status: ContractStatus.COMPLETED,
-    pickupDate: '2025-03-10T09:00:00Z',
-    returnDate: '2025-03-15T09:00:00Z',
-    needsAdjustment: false,
-    createdAt: '2025-03-08T16:20:00Z',
-    updatedAt: '2025-03-15T10:30:00Z',
-    items: [
-      {
-        id: '3',
-        contractId: '3',
-        productId: '4',
-        product: {
-          id: '4',
-          name: 'Smoking',
-          code: 'SM001',
-          rentalValue: 250.00
-        },
-        quantity: 1,
-        unitValue: 250.00,
-        createdAt: '2025-03-08T16:20:00Z',
-        updatedAt: '2025-03-08T16:20:00Z'
-      }
-    ],
-    payments: [
-      {
-        id: '3',
-        contractId: '3',
-        method: PaymentMethod.CASH,
-        totalValue: 250.00,
-        discountType: DiscountType.FIXED,
-        discountValue: 50,
-        finalValue: 200.00,
-        createdAt: '2025-03-08T16:20:00Z',
-        updatedAt: '2025-03-08T16:20:00Z'
-      }
-    ]
-  }
-];
-
 // Customizando o renderizador do tooltip para formato correto
 const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
   if (active && payload && payload.length) {
@@ -329,33 +128,56 @@ const Dashboard: React.FC = () => {
   const [filterType, setFilterType] = useState<'day' | 'month'>('month');
   const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
   const [totalRevenue, setTotalRevenue] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   
-  // Buscar dados iniciais
+  // Buscar dados da API
   useEffect(() => {
-    // Simulação de chamadas de API
     const loadData = async (): Promise<void> => {
       try {
-        // Simulação de atraso na rede
-        await new Promise(resolve => setTimeout(resolve, 500));
+        setLoading(true);
+        setError(null);
         
-        setProducts(MOCK_PRODUCTS);
-        setClients(MOCK_CLIENTS);
-        setContracts(MOCK_CONTRACTS);
+        // Busca paralela dos dados para otimizar o tempo de carregamento
+        const [productsResponse, clientsResponse, contractsResponse] = await Promise.all([
+          api.get<Product[]>('/products'),
+          api.get<Client[]>('/clients'),
+          api.get<Contract[]>('/contracts')
+        ]);
+        
+        const productsData = productsResponse.data || [];
+        const clientsData = clientsResponse.data || [];
+        const contractsData = contractsResponse.data || [];
+        
+        console.log('Dados carregados com sucesso:', {
+          produtos: productsData.length,
+          clientes: clientsData.length,
+          contratos: contractsData.length
+        });
+        
+        // Atualizar os estados com os dados da API
+        setProducts(productsData);
+        setClients(clientsData);
+        setContracts(contractsData);
         
         // Filtrar contratos ativos
-        const active = MOCK_CONTRACTS.filter(c => 
+        const active = contractsData.filter(c => 
           c.status === ContractStatus.ACTIVE || 
           c.status === ContractStatus.IN_PROGRESS
         );
         setActiveContracts(active);
         
         // Calcular receita total
-        calculateRevenue(MOCK_CONTRACTS, filterType);
+        calculateRevenue(contractsData, filterType);
         
         // Gerar alertas
-        generateAlerts(MOCK_CONTRACTS, MOCK_PRODUCTS);
+        generateAlerts(contractsData, productsData);
+        
+        setLoading(false);
       } catch (error) {
         console.error('Erro ao carregar dados:', error);
+        setError('Falha ao carregar dados do servidor. Por favor, tente novamente mais tarde.');
+        setLoading(false);
       }
     };
     
@@ -365,13 +187,12 @@ const Dashboard: React.FC = () => {
   // Calcular receita baseada no filtro selecionado
   const calculateRevenue = (contractsData: Contract[], filter: 'day' | 'month'): void => {
     let revenue = 0;
-    const today = new Date();
     const data: ChartDataPoint[] = [];
     
     if (filter === 'day') {
       // Agrupa os valores por dia do mês atual
-      const currentMonth = today.getMonth();
-      const currentYear = today.getFullYear();
+      const currentMonth = new Date().getMonth();
+      const currentYear = new Date().getFullYear();
       const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
       
       // Inicializa o array com todos os dias do mês
@@ -394,7 +215,7 @@ const Dashboard: React.FC = () => {
       });
     } else {
       // Agrupa os valores por mês do ano atual
-      const currentYear = today.getFullYear();
+      const currentYear = new Date().getFullYear();
       const monthNames = [
         'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
         'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
@@ -514,6 +335,36 @@ const Dashboard: React.FC = () => {
     }).format(value);
   };
 
+  // Componente de carregamento
+  if (loading) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 mx-auto border-4 border-light-yellow border-t-transparent rounded-full animate-spin"></div>
+          <p className="mt-4 text-white font-clash">Carregando dados...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Componente de erro
+  if (error) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <div className="bg-white p-6 rounded-lg shadow-lg max-w-md">
+          <h2 className="text-red-600 text-xl font-bold mb-4">Erro ao carregar dados</h2>
+          <p className="text-gray-700 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-light-yellow text-white py-2 px-4 rounded hover:bg-opacity-90 w-full"
+          >
+            Tentar novamente
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="h-full flex flex-col">
       {/* Cabeçalho */}
@@ -543,7 +394,7 @@ const Dashboard: React.FC = () => {
       </div>
       
       {/* Cards de estatísticas */}
-      <div className="grid grid-cols-4 gap-4 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
         <StatCard 
           title="Total de Produtos" 
           value={products.length} 
@@ -571,13 +422,13 @@ const Dashboard: React.FC = () => {
       </div>
       
       {/* Gráfico e Tabela */}
-      <div className="grid grid-cols-2 gap-4 flex-grow mb-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-grow mb-4">
         {/* Gráfico */}
         <div className="bg-white p-4 rounded-lg shadow-md">
           <h2 className="text-lg font-medium text-gray-700 mb-4">
             {filterType === 'day' ? 'Receita Diária' : 'Receita Mensal'}
           </h2>
-          <div className="h-full">
+          <div className="h-64 md:h-full">
             <ResponsiveContainer width="100%" height="90%">
               <BarChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
@@ -638,7 +489,7 @@ const Dashboard: React.FC = () => {
           <AlertTriangle size={20} className="mr-2 text-amber-500" />
           Alertas e Notificações
         </h2>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {alerts.slice(0, 6).map((alert, index) => (
             <AlertItem 
               key={index}
