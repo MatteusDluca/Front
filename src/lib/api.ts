@@ -80,16 +80,20 @@ export const authApi = {
         credentials
       )
       
-      // Salva os dados do usuário e token no localStorage
+      // Salva o token tanto no localStorage quanto em cookies
       if (response.data.access_token) {
         localStorage.setItem('token', response.data.access_token)
         localStorage.setItem('user', JSON.stringify(response.data.employee))
+        
+        // Adicionar o token como cookie
+        document.cookie = `token=${response.data.access_token}; path=/; max-age=${60*60*24*7}`; // 7 dias
+        
         console.log('Login successful, token saved')
       }
       
       return response.data
     } catch (error) {
-      // Trata erros específicos da API
+      // Tratamento de erro mantido igual
       console.error('Login error:', error)
       
       if (axios.isAxiosError(error)) {
@@ -112,10 +116,14 @@ export const authApi = {
       localStorage.removeItem('token')
       localStorage.removeItem('user')
       
+      // Remover o cookie
+      document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      
       // Redireciona para a página de login
       window.location.href = '/login'
     }
   },
+  
   
   /**
    * Verifica se o usuário está autenticado
