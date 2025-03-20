@@ -48,32 +48,32 @@ const Sidebar: React.FC = () => {
     },
     {
       name: 'Clientes',
-      path: '/clientes',
+      path: '/dashboad/clientes',
       icon: <UserCircle size={22} strokeWidth={1.5} className="rounded-sm" />
     },
     {
       name: 'Funcionários',
-      path: '/funcionarios',
+      path: '/dashboad/funcionarios',
       icon: <Users size={22} strokeWidth={1.5} className="rounded-sm" />
     },
     {
       name: 'Produtos',
-      path: '/produtos',
+      path: '/dashboad/produtos',
       icon: <Package size={22} strokeWidth={1.5} className="rounded-sm" />
     },
     {
       name: 'Contratos',
-      path: '/contratos',
+      path: '/dashboad/contratos',
       icon: <FileText size={22} strokeWidth={1.5} className="rounded-sm" />
     },
     {
       name: 'Eventos e Locais',
-      path: '/eventos-locais',
+      path: '/dashboad/eventos-locais',
       icon: <Calendar size={22} strokeWidth={1.5} className="rounded-sm" />
     },
     {
       name: 'Categorias',
-      path: '/categorias',
+      path: '/dashboad/categorias',
       icon: <Tag size={22} strokeWidth={1.5} className="rounded-sm" />
     }
   ]
